@@ -18,7 +18,7 @@ namespace Spango_Kitchen.Model
         public DbSet<CookingTime> CookingTime { get; set; }
         public DbSet<Cousine> Cousine { get; set; }
         public DbSet<Dish> Dish { get; set; }
-        public DbSet<Ingredients> Ingredients { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<DishIngredientsDetails> DishIngredientsDetails { get; set; }
 
     }

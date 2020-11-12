@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spango_Kitchen.Model;
+using Spango_Kitchen.Services;
 
 namespace Spango_Kitchen.Controllers
 {
@@ -13,25 +14,25 @@ namespace Spango_Kitchen.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly Spango_Context _context;
+        private readonly ICategory _category;
 
-        public CategoriesController(Spango_Context context)
+        public CategoriesController(ICategory category)
         {
-            _context = context;
+            _category = category;
         }
 
         // GET: api/Categories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
         {
-            return await _context.Category.ToListAsync();
+            return await _category.GetCategory();
         }
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            var category = await _context.Category.FindAsync(id);
+            var category = await _category.GetCategory(id);
 
             if (category == null)
             {
@@ -52,15 +53,13 @@ namespace Spango_Kitchen.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _category.PutCategory(id, category);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!await _category.CategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -79,9 +78,7 @@ namespace Spango_Kitchen.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            _context.Category.Add(category);
-            await _context.SaveChangesAsync();
-
+            await _category.PostCategory(category);
             return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
 
@@ -89,21 +86,22 @@ namespace Spango_Kitchen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Category>> DeleteCategory(int id)
         {
-            var category = await _context.Category.FindAsync(id);
+            var category = await _category.GetCategory(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                await _category.DeleteCategory(category.Value.Id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return category;
         }
-
-        private bool CategoryExists(int id)
-        {
-            return _context.Category.Any(e => e.Id == id);
-        }
+        
     }
 }

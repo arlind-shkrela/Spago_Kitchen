@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spango_Kitchen.Model;
+using Spango_Kitchen.Services;
 
 namespace Spango_Kitchen.Controllers
 {
@@ -13,25 +14,25 @@ namespace Spango_Kitchen.Controllers
     [ApiController]
     public class IngredientsController : ControllerBase
     {
-        private readonly Spango_Context _context;
+        private readonly IIngredient _ingredient;
 
-        public IngredientsController(Spango_Context context)
+        public IngredientsController(IIngredient ingredient)
         {
-            _context = context;
+            _ingredient = ingredient;
         }
 
         // GET: api/Ingredients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ingredients>>> GetIngredients()
+        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
         {
-            return await _context.Ingredients.ToListAsync();
+            return await _ingredient.GetIngredients();
         }
 
         // GET: api/Ingredients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ingredients>> GetIngredients(int id)
+        public async Task<ActionResult<Ingredient>> GetIngredients(int id)
         {
-            var ingredients = await _context.Ingredients.FindAsync(id);
+            var ingredients = await _ingredient.GetIngredients(id);
 
             if (ingredients == null)
             {
@@ -45,22 +46,19 @@ namespace Spango_Kitchen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIngredients(int id, Ingredients ingredients)
+        public async Task<IActionResult> PutIngredients(int id, Ingredient ingredients)
         {
             if (id != ingredients.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(ingredients).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _ingredient.PutIngredients(id,ingredients);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IngredientsExists(id))
+                if (!await _ingredient.IngredientsExists(id))
                 {
                     return NotFound();
                 }
@@ -77,33 +75,24 @@ namespace Spango_Kitchen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Ingredients>> PostIngredients(Ingredients ingredients)
+        public async Task<ActionResult<Ingredient>> PostIngredients(Ingredient ingredients)
         {
-            _context.Ingredients.Add(ingredients);
-            await _context.SaveChangesAsync();
-
+            await _ingredient.PostIngredients(ingredients);
             return CreatedAtAction("GetIngredients", new { id = ingredients.Id }, ingredients);
         }
 
         // DELETE: api/Ingredients/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Ingredients>> DeleteIngredients(int id)
+        public async Task<ActionResult<Ingredient>> DeleteIngredients(int id)
         {
-            var ingredients = await _context.Ingredients.FindAsync(id);
+            var ingredients = await _ingredient.GetIngredients(id);
             if (ingredients == null)
             {
                 return NotFound();
             }
 
-            _context.Ingredients.Remove(ingredients);
-            await _context.SaveChangesAsync();
-
+            await _ingredient.DeleteIngredients(ingredients.Value.Id);
             return ingredients;
-        }
-
-        private bool IngredientsExists(int id)
-        {
-            return _context.Ingredients.Any(e => e.Id == id);
         }
     }
 }

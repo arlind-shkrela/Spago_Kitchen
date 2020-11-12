@@ -13,7 +13,7 @@ namespace Spango_Kitchen.Model
         public virtual Dish Dish { get; set; }
 
         public int IngredientsId { get; set; }
-        public virtual Ingredients Ingredients { get; set; }
+        public virtual Ingredient Ingredients { get; set; }
     }
 
 }
