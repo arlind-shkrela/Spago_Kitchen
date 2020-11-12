@@ -14,5 +14,7 @@ namespace Spango_Kitchen.Services
         Task<IActionResult> PutCookingTime(int id, CookingTime cookingTime);
         Task<ActionResult<CookingTime>> PostCookingTime(CookingTime cookingTime);
         Task<ActionResult<CookingTime>> DeleteCookingTime(int id);
+
+        Task<bool> CookingTimeExists(int id);
     }
 }

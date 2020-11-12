@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spango_Kitchen.Model;
+using Spango_Kitchen.Services;
 
 namespace Spango_Kitchen.Controllers
 {
@@ -13,25 +14,25 @@ namespace Spango_Kitchen.Controllers
     [ApiController]
     public class CookingTimesController : ControllerBase
     {
-        private readonly Spango_Context _context;
+        private readonly ICookingTime _cookingTime;
 
-        public CookingTimesController(Spango_Context context)
+        public CookingTimesController(ICookingTime cookingTime)
         {
-            _context = context;
+            _cookingTime = cookingTime;
         }
 
         // GET: api/CookingTimes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CookingTime>>> GetCookingTime()
         {
-            return await _context.CookingTime.ToListAsync();
+            return await _cookingTime.GetCookingTime();
         }
 
         // GET: api/CookingTimes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CookingTime>> GetCookingTime(int id)
         {
-            var cookingTime = await _context.CookingTime.FindAsync(id);
+            var cookingTime = await _cookingTime.GetCookingTime(id);
 
             if (cookingTime == null)
             {
@@ -51,16 +52,13 @@ namespace Spango_Kitchen.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(cookingTime).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _cookingTime.PutCookingTime(id, cookingTime);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CookingTimeExists(id))
+                if (! await _cookingTime.CookingTimeExists(id))
                 {
                     return NotFound();
                 }
@@ -79,9 +77,7 @@ namespace Spango_Kitchen.Controllers
         [HttpPost]
         public async Task<ActionResult<CookingTime>> PostCookingTime(CookingTime cookingTime)
         {
-            _context.CookingTime.Add(cookingTime);
-            await _context.SaveChangesAsync();
-
+            await _cookingTime.PostCookingTime(cookingTime);
             return CreatedAtAction("GetCookingTime", new { id = cookingTime.Id }, cookingTime);
         }
 
@@ -89,21 +85,16 @@ namespace Spango_Kitchen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<CookingTime>> DeleteCookingTime(int id)
         {
-            var cookingTime = await _context.CookingTime.FindAsync(id);
+            var cookingTime = await _cookingTime.GetCookingTime(id);
             if (cookingTime == null)
             {
                 return NotFound();
             }
 
-            _context.CookingTime.Remove(cookingTime);
-            await _context.SaveChangesAsync();
-
+            await _cookingTime.DeleteCookingTime(id);
             return cookingTime;
         }
 
-        private bool CookingTimeExists(int id)
-        {
-            return _context.CookingTime.Any(e => e.Id == id);
-        }
+       
     }
 }

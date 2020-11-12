@@ -38,7 +38,7 @@ namespace Spango_Kitchen.ServicesImplementations
 
         public async Task<ActionResult<Model.CookingTime>> PostCookingTime(Model.CookingTime cookingTime)
         {
-             _context.CookingTime.Add(cookingTime);
+            _context.CookingTime.Add(cookingTime);
             await _context.SaveChangesAsync();
 
             return null;
@@ -59,7 +59,7 @@ namespace Spango_Kitchen.ServicesImplementations
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CookingTimeExists(id))
+                if (!await CookingTimeExists(id))
                 {
                     return null;
                 }
@@ -86,9 +86,9 @@ namespace Spango_Kitchen.ServicesImplementations
         }
 
 
-        private bool CookingTimeExists(int id)
+        public async Task<bool> CookingTimeExists(int id)
         {
-            return _context.CookingTime.Any(e => e.Id == id);
+            return await _context.CookingTime.AnyAsync(e => e.Id == id);
         }
     }
 }
