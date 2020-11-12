@@ -11,9 +11,9 @@ namespace Spango_Kitchen.ServicesImplementations
 {
     public class Cousine : ICousine
     {
-        private readonly Spango_Context _context;
+        private readonly Spago_Context _context;
 
-        public Cousine(Spango_Context context)
+        public Cousine(Spago_Context context)
         {
             _context = context;
         }

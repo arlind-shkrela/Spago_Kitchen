@@ -12,9 +12,9 @@ namespace Spango_Kitchen.ServicesImplementations
 {
     public class Category : ICategory
     {
-        private readonly Spango_Context _context;
+        private readonly Spago_Context _context;
 
-        public Category(Spango_Context context)
+        public Category(Spago_Context context)
         {
             _context = context;
         }

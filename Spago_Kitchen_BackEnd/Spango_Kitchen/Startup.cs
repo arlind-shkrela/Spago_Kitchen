@@ -8,11 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Spango_Kitchen.Model;
+using Spango_Kitchen.DatabaseContext;
+using Spango_Kitchen.Services;
+using Spango_Kitchen.ServicesImplementations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Spango_Kitchen
 {
@@ -30,18 +30,25 @@ namespace Spango_Kitchen
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                services.AddDbContext<Spango_Context>(options =>
+                services.AddDbContext<Spago_Context>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("DefaultConnectionProd")));
             }
             else
             {
-                services.AddDbContext<Spango_Context>(options =>
+                services.AddDbContext<Spago_Context>(options =>
                      options.UseSqlServer(
                          Configuration.GetConnectionString("SpangoContext")));
             }
-            services.BuildServiceProvider().GetService<Spango_Context>().Database.Migrate();
-            //services.AddDbContext<FlyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FlyContext")));
+            services.BuildServiceProvider().GetService<Spago_Context>().Database.Migrate();
+
+            
+            services.AddScoped<ICategory, Category>();
+            services.AddScoped<ICookingTime, CookingTime>();
+            services.AddScoped<ICousine, Cousine>();
+            services.AddScoped<IDish, Dish>();
+            services.AddScoped<IIngredient, Ingredient>();
+            
             services.AddMvcCore().AddApiExplorer();
             services.AddSwaggerGen(c =>
             {

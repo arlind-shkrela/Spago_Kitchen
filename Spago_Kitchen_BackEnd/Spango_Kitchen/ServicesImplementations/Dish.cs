@@ -11,9 +11,9 @@ namespace Spango_Kitchen.ServicesImplementations
 {
     public class Dish : IDish
     {
-        private readonly Spango_Context _context;
+        private readonly Spago_Context _context;
 
-        public Dish(Spango_Context context)
+        public Dish(Spago_Context context)
         {
             _context = context;
         }

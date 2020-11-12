@@ -12,9 +12,9 @@ namespace Spango_Kitchen.ServicesImplementations
     public class Ingredient : IIngredient
     {
 
-        private readonly Spango_Context _context;
+        private readonly Spago_Context _context;
 
-        public Ingredient(Spango_Context context)
+        public Ingredient(Spago_Context context)
         {
             _context = context;
         }

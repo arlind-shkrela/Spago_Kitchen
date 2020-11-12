@@ -7,7 +7,7 @@ using Spango_Kitchen.Model;
 
 namespace Spango_Kitchen.Migrations
 {
-    [DbContext(typeof(Spango_Context))]
+    [DbContext(typeof(Spago_Context))]
     partial class Spango_ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

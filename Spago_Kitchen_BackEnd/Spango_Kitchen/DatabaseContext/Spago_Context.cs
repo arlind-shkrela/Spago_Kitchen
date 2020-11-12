@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Spango_Kitchen.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Spango_Kitchen.Model
+namespace Spango_Kitchen.DatabaseContext
 {
-    public class Spango_Context : DbContext
+    public class Spago_Context : DbContext
     {
-        public Spango_Context(DbContextOptions<Spango_Context> options)
+        public Spago_Context(DbContextOptions<Spago_Context> options)
             : base(options)
         {
         }

@@ -8,7 +8,7 @@ using Spango_Kitchen.Model;
 
 namespace Spango_Kitchen.Migrations
 {
-    [DbContext(typeof(Spango_Context))]
+    [DbContext(typeof(Spago_Context))]
     [Migration("20201112153058_InitialSchema")]
     partial class InitialSchema
     {
