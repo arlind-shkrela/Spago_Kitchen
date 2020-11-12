@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Spango_Kitchen.DatabaseContext;
 using Spango_Kitchen.Model;
 
 namespace Spango_Kitchen.Migrations

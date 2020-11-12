@@ -38,7 +38,7 @@ namespace Spango_Kitchen
             {
                 services.AddDbContext<Spago_Context>(options =>
                      options.UseSqlServer(
-                         Configuration.GetConnectionString("SpangoContext")));
+                         Configuration.GetConnectionString("SpagoContext")));
             }
             services.BuildServiceProvider().GetService<Spago_Context>().Database.Migrate();
 
@@ -52,7 +52,7 @@ namespace Spango_Kitchen
             services.AddMvcCore().AddApiExplorer();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Spango Kitchen Api", Version = "v1" });
+                c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Spago Kitchen Api", Version = "v1" });
             });
             //services.AddControllers();
         }
