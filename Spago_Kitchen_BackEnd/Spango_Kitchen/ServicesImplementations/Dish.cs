@@ -44,7 +44,7 @@ namespace Spango_Kitchen.ServicesImplementations
         {
             if (id != dish.Id)
             {
-                //return BadRequest();
+                //
             }
 
             _context.Entry(dish).State = EntityState.Modified;
@@ -55,9 +55,9 @@ namespace Spango_Kitchen.ServicesImplementations
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DishExists(id))
+                if (!await DishExists(id))
                 {
-                  //  return NotFound();
+                   return null;
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace Spango_Kitchen.ServicesImplementations
             var dish = await _context.Dish.FindAsync(id);
             if (dish == null)
             {
-                //return NotFound();
+                return null;
             }
 
             _context.Dish.Remove(dish);
@@ -81,9 +81,9 @@ namespace Spango_Kitchen.ServicesImplementations
         }
 
 
-        private bool DishExists(int id)
+        public async Task<bool> DishExists(int id)
         {
-            return _context.Dish.Any(e => e.Id == id);
+            return await _context.Dish.AnyAsync(e => e.Id == id);
         }
     }
 }

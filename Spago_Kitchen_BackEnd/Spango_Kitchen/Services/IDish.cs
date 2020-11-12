@@ -14,5 +14,6 @@ namespace Spango_Kitchen.Services
         Task<IActionResult> PutDish(int id, Dish dish);
         Task<ActionResult<Dish>> PostDish(Dish dish);
         Task<ActionResult<Dish>> DeleteDish(int id);
+        Task<bool> DishExists(int id);
     }
 }

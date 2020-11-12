@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spango_Kitchen.Model;
+using Spango_Kitchen.Services;
 
 namespace Spango_Kitchen.Controllers
 {
@@ -13,25 +14,25 @@ namespace Spango_Kitchen.Controllers
     [ApiController]
     public class DishesController : ControllerBase
     {
-        private readonly Spango_Context _context;
+        private readonly IDish _dish;
 
-        public DishesController(Spango_Context context)
+        public DishesController(IDish dish)
         {
-            _context = context;
+            _dish = dish;
         }
 
         // GET: api/Dishes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Dish>>> GetDish()
         {
-            return await _context.Dish.ToListAsync();
+            return await _dish.GetDish();
         }
 
         // GET: api/Dishes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Dish>> GetDish(int id)
         {
-            var dish = await _context.Dish.FindAsync(id);
+            var dish = await _dish.GetDish(id);
 
             if (dish == null)
             {
@@ -52,15 +53,13 @@ namespace Spango_Kitchen.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(dish).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _dish.PutDish(id,dish);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DishExists(id))
+                if (! await _dish.DishExists(id))
                 {
                     return NotFound();
                 }
@@ -79,9 +78,7 @@ namespace Spango_Kitchen.Controllers
         [HttpPost]
         public async Task<ActionResult<Dish>> PostDish(Dish dish)
         {
-            _context.Dish.Add(dish);
-            await _context.SaveChangesAsync();
-
+            await _dish.PostDish(dish);
             return CreatedAtAction("GetDish", new { id = dish.Id }, dish);
         }
 
@@ -89,21 +86,14 @@ namespace Spango_Kitchen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Dish>> DeleteDish(int id)
         {
-            var dish = await _context.Dish.FindAsync(id);
+            var dish = await _dish.GetDish(id);
             if (dish == null)
             {
                 return NotFound();
             }
 
-            _context.Dish.Remove(dish);
-            await _context.SaveChangesAsync();
-
+            await _dish.DeleteDish(id);
             return dish;
-        }
-
-        private bool DishExists(int id)
-        {
-            return _context.Dish.Any(e => e.Id == id);
         }
     }
 }

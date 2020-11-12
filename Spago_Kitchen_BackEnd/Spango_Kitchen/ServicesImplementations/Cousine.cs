@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Spango_Kitchen.ServicesImplementations
 {
-    public class Cousine :ICousine
+    public class Cousine : ICousine
     {
         private readonly Spango_Context _context;
 
@@ -55,7 +55,7 @@ namespace Spango_Kitchen.ServicesImplementations
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CousineExists(id))
+                if (!await CousineExists(id))
                 {
                     return null;
 
@@ -83,9 +83,10 @@ namespace Spango_Kitchen.ServicesImplementations
             return cousine;
         }
 
-        private bool CousineExists(int id)
+        
+        public async Task<bool> CousineExists(int id)
         {
-            return _context.Cousine.Any(e => e.Id == id);
+            return await _context.Cousine.AnyAsync(e => e.Id == id);
         }
     }
 }

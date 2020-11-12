@@ -14,5 +14,7 @@ namespace Spango_Kitchen.Services
         Task<IActionResult> PutCousine(int id, Cousine cousine);
         Task<ActionResult<Cousine>> PostCousine(Cousine cousine);
         Task<ActionResult<Cousine>> DeleteCousine(int id);
+
+        Task<bool> CousineExists(int id);
     }
 }

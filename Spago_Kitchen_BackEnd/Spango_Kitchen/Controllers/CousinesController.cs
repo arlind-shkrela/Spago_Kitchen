@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spango_Kitchen.Model;
+using Spango_Kitchen.Services;
 
 namespace Spango_Kitchen.Controllers
 {
@@ -13,25 +14,25 @@ namespace Spango_Kitchen.Controllers
     [ApiController]
     public class CousinesController : ControllerBase
     {
-        private readonly Spango_Context _context;
+        private readonly ICousine _cousine;
 
-        public CousinesController(Spango_Context context)
+        public CousinesController(ICousine cousine)
         {
-            _context = context;
+            _cousine = cousine;
         }
 
         // GET: api/Cousines
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cousine>>> GetCousine()
         {
-            return await _context.Cousine.ToListAsync();
+            return await _cousine.GetCousine();
         }
 
         // GET: api/Cousines/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cousine>> GetCousine(int id)
         {
-            var cousine = await _context.Cousine.FindAsync(id);
+            var cousine = await _cousine.GetCousine(id);
 
             if (cousine == null)
             {
@@ -51,16 +52,13 @@ namespace Spango_Kitchen.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(cousine).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _cousine.PutCousine(id,cousine);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CousineExists(id))
+                if (! await _cousine.CousineExists(id))
                 {
                     return NotFound();
                 }
@@ -79,9 +77,7 @@ namespace Spango_Kitchen.Controllers
         [HttpPost]
         public async Task<ActionResult<Cousine>> PostCousine(Cousine cousine)
         {
-            _context.Cousine.Add(cousine);
-            await _context.SaveChangesAsync();
-
+            await _cousine.PostCousine(cousine);
             return CreatedAtAction("GetCousine", new { id = cousine.Id }, cousine);
         }
 
@@ -89,21 +85,14 @@ namespace Spango_Kitchen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cousine>> DeleteCousine(int id)
         {
-            var cousine = await _context.Cousine.FindAsync(id);
+            var cousine = await _cousine.GetCousine(id);
             if (cousine == null)
             {
                 return NotFound();
             }
 
-            _context.Cousine.Remove(cousine);
-            await _context.SaveChangesAsync();
-
+            await _cousine.DeleteCousine(cousine.Value.Id);
             return cousine;
-        }
-
-        private bool CousineExists(int id)
-        {
-            return _context.Cousine.Any(e => e.Id == id);
         }
     }
 }
