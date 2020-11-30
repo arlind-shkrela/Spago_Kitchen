@@ -18,6 +18,7 @@ namespace Spango_Kitchen
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,8 +42,18 @@ namespace Spango_Kitchen
                          Configuration.GetConnectionString("SpagoContext")));
             }
             services.BuildServiceProvider().GetService<Spago_Context>().Database.Migrate();
-
             
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                });
+            });
+
+
             services.AddScoped<ICategory, Category>();
             services.AddScoped<ICookingTime, CookingTime>();
             services.AddScoped<ICousine, Cousine>();
@@ -67,7 +78,7 @@ namespace Spango_Kitchen
 
             app.UseHttpsRedirection();
 
-
+            app.UseCors("AllowAll");
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -78,6 +89,7 @@ namespace Spango_Kitchen
             });
             app.UseRouting();
 
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

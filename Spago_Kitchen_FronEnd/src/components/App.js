@@ -4,9 +4,10 @@ import HomePage from "./home/HomePage";
 import AboutPage from "./about/AboutPage";
 import CategoryPage from "./categories/CategoryPage";
 import CousinePage from "./cousine/CousinePage";
+import DishPage from "./dish/DishPage";
+import IngredientsPage from "./ingredients/IngredientsPage";
 import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
-import CoursesPage from "./courses/CoursesPage";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/about" component={AboutPage} />
+        <Route path="/dish" component={DishPage} />
         <Route path="/categories" component={CategoryPage} />
         <Route path="/cousine" component={CousinePage} />
-        <Route path="/courses" component={CoursesPage} />
+        <Route path="/ingredients" component={IngredientsPage} />
         <Route component={PageNotFound} />
       </Switch>
     </div>
