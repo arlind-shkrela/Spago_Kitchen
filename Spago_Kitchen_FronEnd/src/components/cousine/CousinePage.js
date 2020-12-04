@@ -1,7 +1,9 @@
-import React from "react";
+import React, {Component} from "react";
 import axios from "axios";
+import AddCousine from "./add-cousine";
+import { NavLink, Route } from "react-router-dom";
 
-class CousinePage extends React.Component {
+class CousinePage extends Component {
   state = {
     CousineData: []  
   };
@@ -24,14 +26,36 @@ class CousinePage extends React.Component {
 
   render() {
      return ( <section>  
-        <h1>Cousine List</h1>  
+            <Route path="/cousine" component={AddCousine} />
+        <h1>
+          Cousine List        
+
+  
+           {/* <NavLink to="/add-cousine" className="btn btn-primary"> Add </NavLink > */}
+        </h1>  
         <div>  
             <table>  
-                <thead><tr><th>Cousine Id</th><th>Cousine Name</th></tr></thead>  
+                <thead>
+                    <tr>
+                      <th>Nr. </th>
+                      <th>Cousine Name</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+
+                    </tr>
+                </thead>  
                 <tbody>  
                     {  
                         this.state.CousineData.map((p, index) => {  
-                            return <tr key={index}><td>{p.id}</td><td> {p.cousineName}</td></tr>;  
+                            return <tr key={index}>
+                              <td>{p.id}</td>
+                              <td> {p.cousineName}</td>
+                              <td><NavLink> Info </NavLink> </td> | 
+                              <td><NavLink> Edit </NavLink> </td> | 
+                              <td><NavLink> Delete </NavLink> </td>
+
+                            </tr>;  
                         })  
                     }  
                 </tbody>  

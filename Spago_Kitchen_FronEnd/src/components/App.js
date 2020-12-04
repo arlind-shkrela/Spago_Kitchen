@@ -8,6 +8,7 @@ import DishPage from "./dish/DishPage";
 import IngredientsPage from "./ingredients/IngredientsPage";
 import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

@@ -14,7 +14,7 @@ const Header = () => {
       </NavLink> 
       {" | "}
       <NavLink to="/dish" activeStyle={activeStyle}>
-        Dish
+        Dishes
       </NavLink>
       {" | "}
       <NavLink to="/categories" activeStyle={activeStyle}>
