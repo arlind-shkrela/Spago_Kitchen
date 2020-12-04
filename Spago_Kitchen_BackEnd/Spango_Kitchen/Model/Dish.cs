@@ -16,7 +16,7 @@ namespace Spango_Kitchen.Model
         [StringLength(50)]
         public string Name { get; set; }
 
-        public int CousineId { get; set; }
+        public int? CousineId { get; set; }
         public virtual Cousine Cousine{ get; set; }
 
         [StringLength(500)]
@@ -25,7 +25,7 @@ namespace Spango_Kitchen.Model
         public string Notes { get; set; }
 
         public double Price { get; set; }
-        public int CookingTimeId { get; set; }
+        public int? CookingTimeId { get; set; }
         public virtual CookingTime CookingTime { get; set; }
 
 

@@ -28,6 +28,8 @@ namespace Spango_Kitchen.Controllers
             return await _category.GetCategory();
         }
 
+      
+
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)

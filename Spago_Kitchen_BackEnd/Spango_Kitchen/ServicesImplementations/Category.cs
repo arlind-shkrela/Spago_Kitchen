@@ -88,5 +88,6 @@ namespace Spango_Kitchen.ServicesImplementations
         {
             return await _context.Category.AnyAsync(e => e.Id == id);
         }
+
     }
 }

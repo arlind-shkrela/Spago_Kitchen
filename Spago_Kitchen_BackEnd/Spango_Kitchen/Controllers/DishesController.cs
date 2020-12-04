@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Spango_Kitchen.DTO.Response;
 using Spango_Kitchen.Model;
 using Spango_Kitchen.Services;
 
@@ -15,6 +16,7 @@ namespace Spango_Kitchen.Controllers
     public class DishesController : ControllerBase
     {
         private readonly IDish _dish;
+
 
         public DishesController(IDish dish)
         {
@@ -32,7 +34,7 @@ namespace Spango_Kitchen.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Dish>> GetDish(int id)
         {
-            var dish = await _dish.GetDish(id);
+            var dish = await _dish.GetDishById(id);
 
             if (dish == null)
             {
@@ -40,6 +42,15 @@ namespace Spango_Kitchen.Controllers
             }
 
             return dish;
+        }
+
+        // GET: api/CategoryId/Dishes
+        [HttpGet]
+        [Route("/api/Category/{categoryId}/Dishes")]
+        public async Task<CategoriesDishesResponseDTO> GetDishCategory(int categoryId)
+        {
+            var response = await _dish.GetDishListByCategoryId(categoryId);
+            return response;
         }
 
         // PUT: api/Dishes/5
@@ -86,7 +97,7 @@ namespace Spango_Kitchen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Dish>> DeleteDish(int id)
         {
-            var dish = await _dish.GetDish(id);
+            var dish = await _dish.GetDishById(id);
             if (dish == null)
             {
                 return NotFound();

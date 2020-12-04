@@ -12,7 +12,7 @@ using Spango_Kitchen.DatabaseContext;
 using Spango_Kitchen.Services;
 using Spango_Kitchen.ServicesImplementations;
 using System;
-
+using AutoMapper;
 
 namespace Spango_Kitchen
 {
@@ -52,6 +52,8 @@ namespace Spango_Kitchen
                     builder.AllowAnyMethod();
                 });
             });
+
+            services.AddAutoMapper(typeof(Startup));
 
 
             services.AddScoped<ICategory, Category>();

@@ -13,6 +13,7 @@ namespace Spango_Kitchen.Services
 
         Task<ActionResult<Category>> GetCategory(int id);
 
+
         Task<IActionResult> PutCategory(int id, Category category);
 
         Task<ActionResult<Category>> PostCategory(Category category);
