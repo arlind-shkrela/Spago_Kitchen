@@ -1,32 +1,40 @@
 import { CssBaseline, makeStyles } from "@material-ui/core";
 import "./App.css";
 import SideMenu from "../components/SideMenu";
-import Header from "../components/Header";
-import PageHeader from "../components/PageHeader";
-import GroupIcon from "@material-ui/icons/Group";
+
+
+import { Route, Switch } from "react-router-dom";
+import HomePage from "../components/mainPages/HomePage";
+import AboutPage from "../components/mainPages/about";
+import IndexCousine from "../components/cousine/index";
+import DishIndex from "../components/dish/dishIndex";
+import PageNotFound from "../components/PageNotFound";
 
 const useStyles = makeStyles({
   appMain: {
-    paddingLeft: "320px",
+    paddingLeft: "73px",
     width: "100%",
+    paddingTop: "2%",
   },
 });
 
 function App() {
   const classes = useStyles();
   return (
-    <>
+    <div className={classes.appMain}>
       <SideMenu />
-      <div className={classes.appMain}>
-        <Header></Header>
-        <PageHeader
-          title="Page Header"
-          subtitle="pageDisc"
-          icon={<GroupIcon fontSize="large" />}
-        ></PageHeader>
-      </div>
       <CssBaseline />
-    </>
+      <Switch>
+        <Route exact path="/home" component={HomePage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/dish" component={DishIndex} />
+        <Route path="/dish" component={DishIndex} />
+        <Route path="/dish" component={DishIndex} />
+
+        <Route path="/cousine" component={IndexCousine} />
+        <Route component={PageNotFound} />
+      </Switch>
+    </div>
   );
 }
 
