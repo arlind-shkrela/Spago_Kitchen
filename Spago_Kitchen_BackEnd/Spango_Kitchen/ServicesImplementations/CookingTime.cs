@@ -79,8 +79,9 @@ namespace Spango_Kitchen.ServicesImplementations
             {
                 return null;
             }
-
-            _context.CookingTime.Remove(cookingTime);
+            cookingTime.Deleted = true;
+            await _context.SaveChangesAsync();
+            //_context.CookingTime.Remove(cookingTime);
             await _context.SaveChangesAsync();
 
             return cookingTime;

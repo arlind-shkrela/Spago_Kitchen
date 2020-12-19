@@ -79,7 +79,10 @@ namespace Spango_Kitchen.ServicesImplementations
                 return null;
             }
 
-            _context.Dish.Remove(dish);
+            //_context.Dish.Remove(dish);
+            dish.Deleted = true;
+
+            await _context.SaveChangesAsync();
             await _context.SaveChangesAsync();
 
             return dish;

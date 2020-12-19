@@ -27,8 +27,9 @@ namespace Spango_Kitchen.ServicesImplementations
             {
                 return null;
             }
-
-            _context.Ingredients.Remove(ingredients);
+            ingredients.Deleted = true;
+            await _context.SaveChangesAsync();
+            //_context.Ingredients.Remove(ingredients);
             await _context.SaveChangesAsync();
 
             return ingredients;

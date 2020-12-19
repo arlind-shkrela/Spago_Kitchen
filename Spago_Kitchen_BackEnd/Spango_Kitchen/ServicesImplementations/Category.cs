@@ -78,7 +78,9 @@ namespace Spango_Kitchen.ServicesImplementations
                 //return NotFound();
             }
 
-            _context.Category.Remove(category);
+            //_context.Category.Remove(category);
+            category.IsDeleted = true;
+            await _context.SaveChangesAsync();
             await _context.SaveChangesAsync();
 
             return category;

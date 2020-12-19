@@ -77,8 +77,9 @@ namespace Spango_Kitchen.ServicesImplementations
             {
                 return null;
             }
-
-            _context.Cousine.Remove(cousine);
+            cousine.Deleted = true;
+            await _context.SaveChangesAsync();
+            //_context.Cousine.Remove(cousine);
             await _context.SaveChangesAsync();
 
             return cousine;
