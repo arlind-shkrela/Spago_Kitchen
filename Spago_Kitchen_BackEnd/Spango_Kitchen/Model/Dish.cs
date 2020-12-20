@@ -16,6 +16,13 @@ namespace Spango_Kitchen.Model
         [StringLength(50)]
         public string Name { get; set; }
 
+
+        public int Calories { get; set; }
+        public int Fat { get; set; }
+        public int Carbs { get; set; }
+        public int Protein { get; set; }
+
+
         public int? CousineId { get; set; }
         public virtual Cousine Cousine{ get; set; }
 

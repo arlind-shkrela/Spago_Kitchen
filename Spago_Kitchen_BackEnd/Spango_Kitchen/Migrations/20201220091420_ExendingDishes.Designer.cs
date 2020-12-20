@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spango_Kitchen.DatabaseContext;
 
 namespace Spango_Kitchen.Migrations
 {
     [DbContext(typeof(Spago_Context))]
-    partial class Spango_ContextModelSnapshot : ModelSnapshot
+    [Migration("20201220091420_ExendingDishes")]
+    partial class ExendingDishes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,5 +1,7 @@
 import { Card, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
+import FormDialog from "../shared/modal";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +26,14 @@ const useStyles = makeStyles({
 export default function PageHeader(props) {
   const classes = useStyles();
   const { icon, title, subtitle } = props;
+  let [openDialog, setOpen] = React.useState();
+
+  const handleClickOpen = () => {
+    setOpen = true;
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Paper elevation={0} square>
       <div className={classes.pageHeader}>
@@ -36,6 +46,17 @@ export default function PageHeader(props) {
             {subtitle}
           </Typography>
         </div>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+          <FormDialog
+            open={openDialog}
+            setOpen={openDialog}
+            dialogName="Set new Dish"
+            DialogDiscription="Go ahead and insert new!"
+            label="Add New"
+            className={{ backgroundColor: "#000" }}
+            
+          />
+        </Button>
       </div>
     </Paper>
   );
