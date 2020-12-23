@@ -247,9 +247,7 @@ export default function DishIndex() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   //const [openDialog, setOpen] = React.useState();
 
-  const [rows, setRow] = React.useState([
-    { name: "Cupcake", calories: 305, fat: 3.7, carbs: 67, protein: 4.3 },
-  ]);
+  const [rows, setRow] = React.useState([{ data: [], loaded: false }]);
 
   useEffect(() => {
     DishDataService.getAll()
@@ -351,50 +349,63 @@ export default function DishIndex() {
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
               />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = isSelected(row.name);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.name)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.name}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ "aria-labelledby": labelId }}
-                          />
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="right">{row.calories}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                    <TableCell colSpan={6} />
+              {rows.loaded ? (
+                <TableBody>
+                  <TableRow>
+                    <TableCell>loading...</TableCell>
+                    <TableCell>loading...</TableCell>
+                    <TableCell>loading...</TableCell>
+                    <TableCell>loading...</TableCell>
+                    <TableCell>loading...</TableCell>
+                    <TableCell>loading...</TableCell>
                   </TableRow>
-                )}
-              </TableBody>
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.name);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+
+                      return (
+                        <TableRow
+                          hover
+                          onClick={(event) => handleClick(event, row.name)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.name}
+                          selected={isItemSelected}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              inputProps={{ "aria-labelledby": labelId }}
+                            />
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                          >
+                            {row.name}
+                          </TableCell>
+                          <TableCell align="right">{row.calories}</TableCell>
+                          <TableCell align="right">{row.fat}</TableCell>
+                          <TableCell align="right">{row.carbs}</TableCell>
+                          <TableCell align="right">{row.protein}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              )}
             </Table>
           </TableContainer>
           <TablePagination
