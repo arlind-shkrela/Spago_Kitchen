@@ -2,7 +2,6 @@ import { CssBaseline, makeStyles } from "@material-ui/core";
 import "./App.css";
 import SideMenu from "../components/SideMenu";
 
-
 import { Route, Switch } from "react-router-dom";
 import HomePage from "../components/mainPages/HomePage";
 import AboutPage from "../components/mainPages/about";
@@ -25,6 +24,7 @@ function App() {
       <SideMenu />
       <CssBaseline />
       <Switch>
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/home" component={HomePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/dish" component={DishIndex} />

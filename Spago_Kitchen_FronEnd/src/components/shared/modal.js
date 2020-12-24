@@ -7,6 +7,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DishDataService from "../services/dish.service";
+import { Grid } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export default class FormDialog extends Component {
   constructor(props) {
@@ -29,6 +32,9 @@ export default class FormDialog extends Component {
   }
   handleChange(event) {
     this.setState({ name: event.target.value });
+  }
+  handleCousineIdChange(event) {
+    this.setState({ cousineId: event.target.value });
   }
   handleClose() {
     this.setState({
@@ -60,26 +66,42 @@ export default class FormDialog extends Component {
           open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          paperWidthLg="lg"
         >
           <DialogTitle id="form-dialog-title">{dialogName}</DialogTitle>
           <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-              label="Dish Name"
-              type="text"
-              fullWidth
-            />
-            {/* <NumberField
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            /> */}
+            <Grid container alignItems="center">
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  name="name"
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  label="Dish Name"
+                  type="text"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                {" "}
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="demo-simple-select-helper"
+                  value={this.state.categoryId}
+                  name="cousineId"
+                  onChange={this.handleCousineIdChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
