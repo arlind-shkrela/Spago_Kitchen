@@ -20,7 +20,7 @@ namespace Spango_Kitchen.ServicesImplementations
         }
         public async Task<ActionResult<IEnumerable<Model.Cousine>>> GetCousine()
         {
-            return await _context.Cousine.ToListAsync();
+            return await _context.Cousine.Where(s => s.Deleted != true).ToListAsync();
         }
         public async Task<ActionResult<Model.Cousine>> GetCousine(int id)
         {
@@ -78,8 +78,6 @@ namespace Spango_Kitchen.ServicesImplementations
                 return null;
             }
             cousine.Deleted = true;
-            await _context.SaveChangesAsync();
-            //_context.Cousine.Remove(cousine);
             await _context.SaveChangesAsync();
 
             return cousine;

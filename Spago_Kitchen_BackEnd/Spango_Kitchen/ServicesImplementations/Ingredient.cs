@@ -29,15 +29,13 @@ namespace Spango_Kitchen.ServicesImplementations
             }
             ingredients.Deleted = true;
             await _context.SaveChangesAsync();
-            //_context.Ingredients.Remove(ingredients);
-            await _context.SaveChangesAsync();
 
             return ingredients;
         }
 
         public async Task<ActionResult<IEnumerable<Model.Ingredient>>> GetIngredients()
         {
-            return await _context.Ingredients.ToListAsync();
+            return await _context.Ingredients.Where(s => s.Deleted != true).ToListAsync();
         }
 
         public async Task<ActionResult<Model.Ingredient>> GetIngredients(int id)

@@ -22,7 +22,7 @@ namespace Spango_Kitchen.ServicesImplementations
 
         public async Task<ActionResult<IEnumerable<Model.CookingTime>>> GetCookingTime()
         {
-            return await _context.CookingTime.ToListAsync();
+            return await _context.CookingTime.Where(s => s.Deleted != true).ToListAsync();
         }
 
         public async Task<ActionResult<Model.CookingTime>> GetCookingTime(int id)
@@ -80,8 +80,6 @@ namespace Spango_Kitchen.ServicesImplementations
                 return null;
             }
             cookingTime.Deleted = true;
-            await _context.SaveChangesAsync();
-            //_context.CookingTime.Remove(cookingTime);
             await _context.SaveChangesAsync();
 
             return cookingTime;

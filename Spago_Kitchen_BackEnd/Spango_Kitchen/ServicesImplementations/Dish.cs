@@ -25,17 +25,11 @@ namespace Spango_Kitchen.ServicesImplementations
 
         public async Task<ActionResult<IEnumerable<Model.Dish>>> GetDish()
         {
-            return await _context.Dish.ToListAsync();
+            return await _context.Dish.Where(s=>s.Deleted != true).ToListAsync();
         }
         public async Task<ActionResult<Model.Dish>> GetDishById(int id)
         {
             var dish = await _context.Dish.FindAsync(id);
-
-            if (dish == null)
-            {
-                //return NotFound();
-            }
-
             return dish;
         }
         public async Task<ActionResult<Model.Dish>> PostDish(Model.Dish dish)
@@ -79,10 +73,7 @@ namespace Spango_Kitchen.ServicesImplementations
                 return null;
             }
 
-            //_context.Dish.Remove(dish);
             dish.Deleted = true;
-
-            await _context.SaveChangesAsync();
             await _context.SaveChangesAsync();
 
             return dish;

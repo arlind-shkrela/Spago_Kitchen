@@ -21,7 +21,7 @@ namespace Spango_Kitchen.ServicesImplementations
         }
         public async Task<ActionResult<IEnumerable<Model.Category>>> GetCategory()
         {
-            return await _context.Category.ToListAsync();
+            return await _context.Category.Where(s=>s.IsDeleted != true).ToListAsync();
         }
         public async Task<ActionResult<Model.Category>> GetCategory(int id)
         {
@@ -78,9 +78,7 @@ namespace Spango_Kitchen.ServicesImplementations
                 //return NotFound();
             }
 
-            //_context.Category.Remove(category);
             category.IsDeleted = true;
-            await _context.SaveChangesAsync();
             await _context.SaveChangesAsync();
 
             return category;
